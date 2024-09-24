@@ -1,6 +1,6 @@
 # EMGMLasso
 ## Variable selection in high-dimensional generalized linear mixed models for correlated binary data
-### Author
+### Authors
 Jalmar M. F. Carrasco,
 Lizandra Castilho Fabio,
 Dipak K. Dey,
