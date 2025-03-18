@@ -1,4 +1,4 @@
-# EMGMLasso
+# EMGLMLasso
 ## Variable selection in high-dimensional generalized linear mixed models for binary data
 ### Authors
 Jalmar M. F. Carrasco,
