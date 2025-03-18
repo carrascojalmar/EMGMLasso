@@ -32,7 +32,6 @@ DD <- matrix(1,1,1)
 # High-dimension
 #------------------------------
 
-#set.seed(1234)
 np <- 1000
 x.1aux <- rnorm(275*np,0,1)
 x.aux <- matrix(x.1aux,nrow=275,ncol=np,byrow = T)
