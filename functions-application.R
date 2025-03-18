@@ -1,6 +1,7 @@
 #
 # Packages
 #
+
 suppressMessages(library(mvtnorm))
 suppressMessages(library(tmvtnorm))
 suppressMessages(library(glmnet))
@@ -77,7 +78,7 @@ EMN_ProbitLogit <- function(nj, y, x, w, eps,iter.max,Q,type="probit"){
     
     while(criterio>eps){
       cont<-cont+1
-      print(cont)
+      #print(cont)
       
       suma1<-matrix(0,p,p)
       suma2<-matrix(0,p,1)
@@ -192,7 +193,8 @@ EMN_ProbitLogit <- function(nj, y, x, w, eps,iter.max,Q,type="probit"){
   return(list(teta=teta,ep=epbetas, loglik=logver))
 }
 # PML estimation in the Bernoulli mixed model
-EMGMLasso_ProbitLogit <-function(nj,y,x,w,eps,iter.max,Intercep=FALSE,folds,Q,type="probit"){
+EMGMLasso_ProbitLogit <-function(nj,y,x,w,eps,iter.max,Intercep=FALSE,
+                                 folds,Q,type="probit"){
   q1 <- ncol(w)
   m <- length(nj)
   N <- sum(nj)
@@ -269,6 +271,7 @@ EMGMLasso_ProbitLogit <-function(nj,y,x,w,eps,iter.max,Intercep=FALSE,folds,Q,ty
         la.eq2 <- glmnet(x,zm,family="gaussian",lambda=lambda.atual,
                          intercept=FALSE,alpha=1)
         betas <- matrix(la.eq2$beta,p,1)  
+        
       }else{
         mod01 <- cv.glmnet(x,zm,family="gaussian",intercept=TRUE,
                            nfolds=folds,
@@ -276,9 +279,11 @@ EMGMLasso_ProbitLogit <-function(nj,y,x,w,eps,iter.max,Intercep=FALSE,folds,Q,ty
         lambda.atual <- mod01$lambda.min
         la.eq2 <- glmnet(x,zm,family="gaussian",lambda=lambda.atual,
                          intercept=TRUE,alpha=1)
-        betas <- matrix(c(as.numeric(la.eq2$a0),as.numeric(la.eq2$beta)),p,1)}
+        betas <- matrix(c(as.numeric(la.eq2$a0),as.numeric(la.eq2$beta)),p,1)
+        
+      }
       
-      plot(mod01)
+      #plot(mod01)
       
       DD <- suma3/m
       teta <- c(betas,DD[upper.tri(DD, diag = T)])
@@ -289,7 +294,7 @@ EMGMLasso_ProbitLogit <-function(nj,y,x,w,eps,iter.max,Intercep=FALSE,folds,Q,ty
         loglik <- logver.QGauss(nj,y,cbind(1,x),w,betas,(DD+t(DD))/2,Q)  
       }
       
-      print(loglik)
+      #print(loglik)
       
       #loglik1 <- loglik0
       #a.k <- (loglik-loglik1)/(loglik1-loglik)
@@ -297,7 +302,7 @@ EMGMLasso_ProbitLogit <-function(nj,y,x,w,eps,iter.max,Intercep=FALSE,folds,Q,ty
       #criterio <- abs(loglik-loglik.ass)
       
       criterio <- (teta1-teta)%*%(teta1-teta)#sum((teta1-teta)^2)
-      print(cont)
+      #print(cont)
       if(cont==iter.max){criterio=eps/10}
     }
     
@@ -367,7 +372,8 @@ EMGMLasso_ProbitLogit <-function(nj,y,x,w,eps,iter.max,Intercep=FALSE,folds,Q,ty
         lambda.atual <- mod01$lambda.min
         la.eq2 <- glmnet(x,zm,family="gaussian",lambda=lambda.atual,
                          intercept=FALSE,alpha=1)
-        betas <- matrix(la.eq2$beta,p,1)  
+        betas <- matrix(la.eq2$beta,p,1)
+        
       }else{
         mod01 <- cv.glmnet(x,zm,family="gaussian",intercept=TRUE,
                            nfolds=folds,
@@ -375,9 +381,11 @@ EMGMLasso_ProbitLogit <-function(nj,y,x,w,eps,iter.max,Intercep=FALSE,folds,Q,ty
         lambda.atual <- mod01$lambda.min
         la.eq2 <- glmnet(x,zm,family="gaussian",lambda=lambda.atual,
                          intercept=TRUE,alpha=1)
-        betas <- matrix(c(as.numeric(la.eq2$a0),as.numeric(la.eq2$beta)),p,1)}
+        betas <- matrix(c(as.numeric(la.eq2$a0),as.numeric(la.eq2$beta)),p,1)
+        
+      }
       
-      plot(mod01)
+      #plot(mod01)
       
       DD <- suma3/m
       teta <- c(betas,DD[upper.tri(DD, diag = T)])
@@ -388,7 +396,7 @@ EMGMLasso_ProbitLogit <-function(nj,y,x,w,eps,iter.max,Intercep=FALSE,folds,Q,ty
         loglik <- logverLogit.QGauss(nj,y,cbind(1,x),w,betas,(DD+t(DD))/2,Q)  
       }
       
-      print(loglik)
+      #print(loglik)
       
       #loglik1 <- loglik0
       #a.k <- (loglik-loglik1)/(loglik1-loglik)
@@ -396,7 +404,7 @@ EMGMLasso_ProbitLogit <-function(nj,y,x,w,eps,iter.max,Intercep=FALSE,folds,Q,ty
       #criterio <- abs(loglik-loglik.ass)
       
       criterio <- (teta1-teta)%*%(teta1-teta)#sum((teta1-teta)^2)
-      print(cont)
+      #print(cont)
       if(cont==iter.max){criterio=eps/10}
     }
     
